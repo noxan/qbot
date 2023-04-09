@@ -3,7 +3,7 @@ import { Container, Heading, Input, Button, Text } from "@chakra-ui/react";
 import { useState } from "react";
 
 export default function Home() {
-  const [response, setResponse] = useState();
+  const [response, setResponse] = useState("");
 
   const handleSubmit = async (evt: any) => {
     evt.preventDefault();
