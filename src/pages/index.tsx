@@ -37,7 +37,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Container>
-        <Heading pt={15}>Qbot</Heading>
+        <Heading pt={12}>Qbot</Heading>
 
         <form onSubmit={handleSubmit}>
           <Stack spacing={2} direction="row" py={3}>
