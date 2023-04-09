@@ -1,5 +1,12 @@
 import Head from "next/head";
-import { Container, Heading, Input, Button, Text } from "@chakra-ui/react";
+import {
+  Container,
+  Heading,
+  Input,
+  Button,
+  Text,
+  Stack,
+} from "@chakra-ui/react";
 import { useState } from "react";
 
 export default function Home() {
@@ -30,25 +37,27 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Container>
-        <Heading>Qbot</Heading>
+        <Heading pt={15}>Qbot</Heading>
 
         <form onSubmit={handleSubmit}>
-          <Input
-            name="url"
-            id="url"
-            type="url"
-            required
-            placeholder="www.example.com"
-            defaultValue="https://en.wikipedia.org/wiki/Mount_Price_(British_Columbia)"
-          />
-          <Button colorScheme="teal" variant="solid" type="submit">
-            Submit
-          </Button>
+          <Stack spacing={2} direction="row" py={3}>
+            <Input
+              name="url"
+              id="url"
+              type="url"
+              required
+              placeholder="www.example.com"
+              defaultValue="https://en.wikipedia.org/wiki/Mount_Price_(British_Columbia)"
+            />
+            <Button colorScheme="teal" variant="solid" type="submit">
+              Submit
+            </Button>
+          </Stack>
         </form>
 
         {response && (
           <>
-            <Heading as="h2" size="md">
+            <Heading as="h2" size="md" py={2}>
               Questions
             </Heading>
             {response.split("\n").map((line: any, index: number) => (
