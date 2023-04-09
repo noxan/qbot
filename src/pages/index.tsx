@@ -4,7 +4,15 @@ import { Container, Heading, Input, Button } from "@chakra-ui/react";
 export default function Home() {
   const handleSubmit = async (evt: any) => {
     evt.preventDefault();
-    console.log("submit", evt.target.url.value);
+    const res = await fetch("/api/form", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ url: evt.target.url.value }),
+    });
+    const data = await res.json();
+    console.log(data);
   };
 
   return (
