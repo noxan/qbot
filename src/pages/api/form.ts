@@ -1,8 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import * as cheerio from "cheerio";
+import { ChatGPTAPI } from "chatgpt";
 
 type Data = {
-  data: string;
+  data: any;
 };
 
 export default async function handler(
@@ -21,7 +22,24 @@ export default async function handler(
   const html = await web.text();
 
   const $ = cheerio.load(html);
-  const text = $("body").text();
+  $("script").remove();
+  $("style").remove();
+  $(".mw-editsection").remove();
+  $(".reference").remove();
+  const text = $("#bodyContent")
+    .text()
+    .replaceAll(/[\n\t]/g, "")
+    .substring(0, 2000);
+  // TODO: better extract text from other websites
 
-  res.status(200).json({ data: text });
+  const api = new ChatGPTAPI({
+    apiKey: process.env.OPENAI_API_KEY!,
+  });
+  const prompt =
+    "generate questions to test the knowledge on the following article";
+  const message = prompt + ": " + text;
+  console.log(message);
+  const gpt = await api.sendMessage(message);
+
+  res.status(200).json({ data: gpt.text });
 }

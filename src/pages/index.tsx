@@ -1,7 +1,10 @@
 import Head from "next/head";
-import { Container, Heading, Input, Button } from "@chakra-ui/react";
+import { Container, Heading, Input, Button, Text } from "@chakra-ui/react";
+import { useState } from "react";
 
 export default function Home() {
+  const [response, setResponse] = useState();
+
   const handleSubmit = async (evt: any) => {
     evt.preventDefault();
     const res = await fetch("/api/form", {
@@ -12,7 +15,7 @@ export default function Home() {
       body: JSON.stringify({ url: evt.target.url.value }),
     });
     const data = await res.json();
-    console.log(data);
+    setResponse(data.data);
   };
 
   return (
@@ -42,6 +45,17 @@ export default function Home() {
             Submit
           </Button>
         </form>
+
+        {response && (
+          <>
+            <Heading as="h2" size="md">
+              Questions
+            </Heading>
+            {response.split("\n").map((line: any, index: number) => (
+              <Text key={index}>{line}</Text>
+            ))}
+          </>
+        )}
       </Container>
     </>
   );
