@@ -24,12 +24,17 @@ export default async function handler(
   const $ = cheerio.load(html);
   $("script").remove();
   $("style").remove();
-  $(".mw-editsection").remove();
-  $(".reference").remove();
-  const text = $("#bodyContent")
-    .text()
-    .replaceAll(/[\n\t]/g, "")
-    .substring(0, 2000);
+  let text;
+  if (body.url.includes("wikipedia")) {
+    $(".mw-editsection").remove();
+    $(".reference").remove();
+    text = $("#bodyContent")
+      .text()
+      .replaceAll(/[\n\t]/g, "");
+  } else {
+    text = $("body").text();
+  }
+  text = text.substring(0, 2000);
   // TODO: better extract text from other websites
 
   const api = new ChatGPTAPI({
